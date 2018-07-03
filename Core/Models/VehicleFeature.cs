@@ -1,7 +1,7 @@
 // We created this model because in EF Core not support yet many-to-many relationship
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vega.Models
+namespace Vega.Core.Models
 {
     [Table("VehicleFeatures")]
     public class VehicleFeature

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vega.Models
+namespace Vega.Core.Models
 {
     [Table("Models")] // to make database name "Models" NOT "Model"
     public class Model
