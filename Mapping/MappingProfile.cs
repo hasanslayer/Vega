@@ -14,13 +14,18 @@ namespace Vega.Mapping
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
             CreateMap<Feature, FeatureResource>();
-            CreateMap<Vehicle, VehicleResource>()
+            CreateMap<Vehicle, SaveVehicleResource>()
                 .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone }))
                 .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => vf.FeatureId)));
 
+            CreateMap<Vehicle, VehicleResource>()
+                .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make))// this mean when we get the moadel we will get the make
+                .ForMember(vr => vr.Contact, opt => opt.MapFrom(v => new ContactResource { Name = v.ContactName, Email = v.ContactEmail, Phone = v.ContactPhone }))
+                .ForMember(vr => vr.Features, opt => opt.MapFrom(v => v.Features.Select(vf => new FeatureResource { Id = vf.Feature.Id, Name = vf.Feature.Name })));
+
 
             // API Resource to Domain
-            CreateMap<VehicleResource, Vehicle>()//the shape of domain class is differend from the shape of api resource
+            CreateMap<SaveVehicleResource, Vehicle>()//the shape of domain class is differend from the shape of api resource
                 .ForMember(v => v.Id, opt => opt.Ignore())// Ignore to modify the Id of vehicle
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))// (target object, where we can find it)
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))
