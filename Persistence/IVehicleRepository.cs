@@ -5,6 +5,6 @@ namespace Vega.Persistence
 {
     public interface IVehicleRepository
     {
-        Task<Vehicle> GetVehicle(int id)
+        Task<Vehicle> GetVehicle(int id);
     }
 }
