@@ -11,8 +11,10 @@ export class VehicleFormComponent implements OnInit {
   models: any[];
   features: any[];
   vehicle: any = {
-    features: [] //we should initialize the features array because we use push() method in onFeatureToggle()
+    features: [], //we should initialize the features array because we use push() method in onFeatureToggle()
+    contact: {}
   };
+
 
   constructor(
     private vehicleService: VehicleService) { }
@@ -40,5 +42,10 @@ export class VehicleFormComponent implements OnInit {
       var index = this.vehicle.features.indexOf(featureId);
       this.vehicle.features.splice(index, 1); // remove one object from the index
     }
+  }
+
+  submit() {
+    this.vehicleService.create(this.vehicle)
+      .subscribe(x => console.log(x));
   }
 }
