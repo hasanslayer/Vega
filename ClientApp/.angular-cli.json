@@ -18,9 +18,7 @@
     "prefix": "app",
     "styles": [
       "styles.css",
-      "styles.scss",
-      "../node_modules/bootstrap/dist/css/bootstrap.min.css",
-      "/node_modules/ngx-toastr/toastr.css"
+      "../node_modules/bootstrap/dist/css/bootstrap.min.css"
     ],
     "scripts": [],
     "environmentSource": "environments/environment.ts",
