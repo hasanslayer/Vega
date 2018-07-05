@@ -27,6 +27,7 @@ namespace Vega.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateVehicle([FromBody]SaveVehicleResource vehicleResource)//  FromBody : the data of object [complex object] in the body of the request
         {
+            throw new Exception();
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
