@@ -1,4 +1,6 @@
-import { ErrorHandler, NgZone, Inject, Injector } from "@angular/core";
+import * as Raven from 'raven-js';
+
+import { ErrorHandler, NgZone, Inject, isDevMode } from "@angular/core";
 
 export class AppErrorHandler implements ErrorHandler {
 
@@ -7,6 +9,12 @@ export class AppErrorHandler implements ErrorHandler {
     }
 
     handleError(error: any): void {
+
+        if (!isDevMode())
+            Raven.captureException(error.originalError || error);
+        else
+            throw error;
+
         this.ngZone.run(() => {
             console.log("ERROR : this should be notification inside ngZone");
         });
