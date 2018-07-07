@@ -1,7 +1,9 @@
 import { VehicleService } from '../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
+import { Observable } from '../../../node_modules/rxjs/Observable';
 
+import 'rxjs/add/Observable/forkJoin';
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
@@ -27,21 +29,24 @@ export class VehicleFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.vehicleService.getVehicle(this.vehicle.id)
-      .subscribe(v => {
-        this.vehicle = v;
-      },
-        err => {
-          if (err.status == 404)
-            this.router.navigate(['/not-found']);
-        }
-      );
 
-    this.vehicleService.getMakes().subscribe(makes =>
-      this.makes = makes);
+    var sources = [
+      this.vehicleService.getMakes(), // order no matter because the request will be in parallel data[0]
+      this.vehicleService.getFeatures(),//data[1]
+    ];
 
-    this.vehicleService.getFeatures().subscribe(features =>
-      this.features = features);
+    if (this.vehicle.id) // to make sure when create vehicle
+      sources.push(this.vehicleService.getVehicle(this.vehicle.id)) //data[2]
+
+    Observable.forkJoin(sources).subscribe(data => {
+      this.makes = data[0];
+      this.features = data[1];
+      if (this.vehicle.id)
+        this.vehicle = data[2];
+    }, err => {
+      if (err.status == 404)
+        this.router.navigate(['/not-found']);
+    });
   }
 
   onMakeChange() {
