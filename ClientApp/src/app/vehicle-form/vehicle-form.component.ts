@@ -1,5 +1,6 @@
 import { VehicleService } from '../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -17,9 +18,25 @@ export class VehicleFormComponent implements OnInit {
 
 
   constructor(
-    private vehicleService: VehicleService) { }
+    private route: ActivatedRoute, // to read route parameters
+    private router: Router, // to navigate the user to another different page if they pass an invalid Id
+    private vehicleService: VehicleService) {
+    this.route.params.subscribe(p => {
+      this.vehicle.id = +p['id']; // '+' is for convert to number
+    })
+  }
 
   ngOnInit() {
+    this.vehicleService.getVehicle(this.vehicle.id)
+      .subscribe(v => {
+        this.vehicle = v;
+      },
+        err => {
+          if (err.status == 404)
+            this.router.navigate(['/not-found']);
+        }
+      );
+
     this.vehicleService.getMakes().subscribe(makes =>
       this.makes = makes);
 
