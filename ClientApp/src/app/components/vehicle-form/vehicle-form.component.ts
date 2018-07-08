@@ -1,9 +1,12 @@
+import * as _ from 'underscore';
+import { Vehicle } from './../../models/vehicle';
 import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
 import { Observable } from '../../../../node_modules/rxjs/Observable';
 
 import 'rxjs/add/Observable/forkJoin';
+import { SaveVehicle } from '../../models/vehicle';
 @Component({
   selector: 'app-vehicle-form',
   templateUrl: './vehicle-form.component.html',
@@ -13,9 +16,17 @@ export class VehicleFormComponent implements OnInit {
   makes: any[];
   models: any[];
   features: any[];
-  vehicle: any = {
+  vehicle: SaveVehicle = {
+    id: 0,
+    makeId: 0,
+    modelId: 0,
+    isRegistered: false,
     features: [], //we should initialize the features array because we use push() method in onFeatureToggle()
-    contact: {}
+    contact: {
+      name: '',
+      phone: '',
+      email: ''
+    }
   };
 
 
@@ -49,10 +60,13 @@ export class VehicleFormComponent implements OnInit {
     });
   }
 
-  private setVehicle(v) {
+  private setVehicle(v: Vehicle) { // here we do the mapping 
     this.vehicle.id = v.id;
     this.vehicle.makeId = v.make.id;
     this.vehicle.modelId = v.model.id;
+    this.vehicle.isRegistered = v.isRegistered;
+    this.vehicle.contact = v.contact;
+    this.vehicle.features = _.pluck(v.features, 'id'); /* underscore '_' : used for "mapping" because in source object we have KeyValuePair {id,name} but in target object we only want the number*/
   }
 
   onMakeChange() {
