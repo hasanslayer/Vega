@@ -8,12 +8,12 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
-import { AppErrorHandler } from './app.error-handler';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { HomeComponent } from './components/home/home.component';
+import { CounterComponent } from './components/counter/counter.component';
+import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
+import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
+import { AppErrorHandler } from './error-page/app.error-handler';
 import { NotFoundComponent } from './error-page/not-found/not-found.component';
 
 Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').install();

@@ -1,7 +1,7 @@
-import { VehicleService } from '../services/vehicle.service';
+import { VehicleService } from '../../services/vehicle.service';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '../../../node_modules/@angular/router';
-import { Observable } from '../../../node_modules/rxjs/Observable';
+import { ActivatedRoute, Router } from '../../../../node_modules/@angular/router';
+import { Observable } from '../../../../node_modules/rxjs/Observable';
 
 import 'rxjs/add/Observable/forkJoin';
 @Component({
@@ -42,11 +42,17 @@ export class VehicleFormComponent implements OnInit {
       this.makes = data[0];
       this.features = data[1];
       if (this.vehicle.id)
-        this.vehicle = data[2];
+        this.setVehicle(data[2])
     }, err => {
       if (err.status == 404)
         this.router.navigate(['/not-found']);
     });
+  }
+
+  private setVehicle(v) {
+    this.vehicle.id = v.id;
+    this.vehicle.makeId = v.make.id;
+    this.vehicle.modelId = v.model.id;
   }
 
   onMakeChange() {
