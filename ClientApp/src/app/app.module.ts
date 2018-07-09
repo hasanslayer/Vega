@@ -35,6 +35,7 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'vehicles/new', component: VehicleFormComponent },
       { path: 'vehicles/:id', component: VehicleFormComponent },
       { path: 'counter', component: CounterComponent },
