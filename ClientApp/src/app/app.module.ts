@@ -15,6 +15,7 @@ import { FetchDataComponent } from './components/fetch-data/fetch-data.component
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { AppErrorHandler } from './error-page/app.error-handler';
 import { NotFoundComponent } from './error-page/not-found/not-found.component';
+import { VehicleListComponent } from './components/vehicle-list/vehicle-list';
 
 Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').install();
 
@@ -26,6 +27,7 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
     CounterComponent,
     FetchDataComponent,
     VehicleFormComponent,
+    VehicleListComponent,
     NotFoundComponent
   ],
   imports: [
@@ -34,10 +36,11 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
     HttpModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
+      { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
       { path: 'home', component: HomeComponent },
       { path: 'vehicles/new', component: VehicleFormComponent },
       { path: 'vehicles/:id', component: VehicleFormComponent },
+      { path: 'vehicles', component: VehicleListComponent },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'not-found', component: NotFoundComponent }
