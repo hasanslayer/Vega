@@ -11,7 +11,6 @@ import { Component, OnInit } from "@angular/core";
 
 export class VehicleListComponent implements OnInit {
     vehicles: Vehicle[];
-    allVehicles: Vehicle[];
     makes: KeyValuePair[];
     filter: any = {};
 
@@ -22,20 +21,18 @@ export class VehicleListComponent implements OnInit {
             .subscribe(makes => this.makes = makes);
 
 
-        this.vehicleService.getVehicles()
-            .subscribe(vehicles => this.vehicles = this.allVehicles = vehicles);
+        // we remove this.allVehicles because the filtering will be on the server
+        this.populateVehicles();
+    }
+
+    private populateVehicles() {
+        this.vehicleService.getVehicles(this.filter)
+            .subscribe(vehicles => this.vehicles = vehicles);
     }
 
     onFilterChange() {
-        var vehicles = this.allVehicles;
-
-        if (this.filter.makeId)
-            vehicles = vehicles.filter(v => v.make.id == this.filter.makeId); // we can apply more than one filter like this way
-
-        if (this.filter.modelId)
-            vehicles = vehicles.filter(v => v.model.id == this.filter.modelId);
-
-        this.vehicles = vehicles;
+        //this.filter.modelId = 2; // this is for demonstrating
+        this.populateVehicles();
     }
 
     resetFilter() {

@@ -29,9 +29,21 @@ export class VehicleService {
       .map(res => res.json());
   }
 
-  getVehicles() {
-    return this.http.get(this.vehicleEndpoint)
+  getVehicles(filter) {
+    return this.http.get(this.vehicleEndpoint + '?' + this.toQueryString(filter))
       .map(res => res.json());
+
+  }
+
+  toQueryString(obj) {
+    var parts = [];
+    for (var property in obj) {
+      var value = obj[property]; // obj[property] = obj.property {javascript , typescript}
+      if (value != null && value != undefined)
+        parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value));
+    }
+
+    return parts.join('&');
 
   }
 
