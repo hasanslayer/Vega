@@ -26,6 +26,7 @@ namespace Vega.Mapping
 
 
             // API Resource to Domain
+            CreateMap<FilterResource, Filter>();
             CreateMap<SaveVehicleResource, Vehicle>()//the shape of domain class is differend from the shape of api resource
                 .ForMember(v => v.Id, opt => opt.Ignore())// Ignore to modify the Id of vehicle
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))// (target object, where we can find it)

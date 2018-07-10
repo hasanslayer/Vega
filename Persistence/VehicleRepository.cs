@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vega.Core;
@@ -38,14 +39,19 @@ namespace Vega.Persistence
             context.Remove(vehicle);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
         {
-            return await context.Vehicles
+            var query = context.Vehicles
             .Include(v => v.Model)
                 .ThenInclude(m => m.Make)// New in EF Core for eager load nested object
             .Include(v => v.Features)
                 .ThenInclude(vf => vf.Feature)
-            .ToListAsync();
+            .AsQueryable(); // we remove ToListAsync() because we compose the query dynamically
+
+            if (filter.MakeId.HasValue)
+                query = query.Where(v => v.Model.MakeId == filter.MakeId.Value);
+            
+            return await query.ToListAsync();
 
         }
     }
