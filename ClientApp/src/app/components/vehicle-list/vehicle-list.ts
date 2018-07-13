@@ -10,10 +10,13 @@ import { Component, OnInit } from "@angular/core";
 })
 
 export class VehicleListComponent implements OnInit {
-    vehicles: Vehicle[];
+    private readonly PAGE_SIZE = 3;
+
+
+    queryResult: any = {};
     makes: KeyValuePair[];
     query: any = {
-        pageSize: 3
+        pageSize: this.PAGE_SIZE
     };
     columns = [
         { title: 'Id' },
@@ -37,17 +40,21 @@ export class VehicleListComponent implements OnInit {
 
     private populateVehicles() {
         this.vehicleService.getVehicles(this.query)
-            .subscribe(vehicles => this.vehicles = vehicles);
+            .subscribe(result => this.queryResult = result);
     }
 
     onFilterChange() {
         //this.filter.modelId = 2; // this is for demonstrating
+        this.query.page = 1; //reset
         this.populateVehicles();
     }
 
     resetFilter() {
-        this.query = {};
-        this.onFilterChange();
+        this.query = {
+            page: 1,
+            pageSize: this.PAGE_SIZE
+        };
+        this.populateVehicles();
     }
 
     sortBy(columnName) {
