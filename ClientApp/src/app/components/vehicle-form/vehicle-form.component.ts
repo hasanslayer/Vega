@@ -35,7 +35,7 @@ export class VehicleFormComponent implements OnInit {
     private router: Router, // to navigate the user to another different page if they pass an invalid Id
     private vehicleService: VehicleService) {
     this.route.params.subscribe(p => {
-      this.vehicle.id = +p['id']; // '+' is for convert to number
+      this.vehicle.id = +p['id'] || 0; // '+' is for convert to number
     })
   }
 

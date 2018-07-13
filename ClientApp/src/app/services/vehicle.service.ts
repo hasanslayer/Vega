@@ -48,12 +48,12 @@ export class VehicleService {
   }
 
   update(vehicle: SaveVehicle) {
-    return this.http.put(this.vehicleEndpoint + vehicle.id, vehicle)
+    return this.http.put(this.vehicleEndpoint +'/'+ vehicle.id, vehicle)
       .map(res => res.json());
   }
 
   delete(id) {
-    return this.http.delete(this.vehicleEndpoint + id)
+    return this.http.delete(this.vehicleEndpoint +'/'+ id)
       .map(res => res.json());
   }
 
