@@ -11,6 +11,7 @@ namespace Vega.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap<Photo, PhotoResource>();
             CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));//in this case we dealing with generic classes
             CreateMap<Make, MakeResource>();
             CreateMap<Make, KeyValuePairResource>();
