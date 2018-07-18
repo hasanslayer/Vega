@@ -8,8 +8,14 @@ export class PhotoService {
 
     upload(vehicleId, photo) {
         var formData = new FormData();
-        formData.append('file',photo)// 'file' as string is the Exact name in PhotosController [Upload(int vehicleId, IFormFile ->'file')]
+        formData.append('file', photo)// 'file' as string is the Exact name in PhotosController [Upload(int vehicleId, IFormFile ->'file')]
         return this.http.post(`/api/vehicles/${vehicleId}/photos`, formData)
+            .map(res => res.json());
+    }
+
+
+    getPhotos(vehicleId) {
+        return this.http.get(`/api/vehicles/${vehicleId}/photos`)
             .map(res => res.json());
     }
 }
