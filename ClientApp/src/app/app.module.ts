@@ -5,7 +5,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BrowserXhr } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
@@ -19,6 +19,7 @@ import { VehicleListComponent } from './components/vehicle-list/vehicle-list';
 import { PaginationComponent } from './components/shared/pagination.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle';
 import { PhotoService } from './services/photo.service';
+import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
 
 Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').install();
 
@@ -54,8 +55,10 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
   ],
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
+    { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
     VehicleService,
-    PhotoService
+    PhotoService,
+    ProgressService
   ],
   bootstrap: [AppComponent]
 })

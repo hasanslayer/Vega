@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VehicleService } from '../../services/vehicle.service';
 import { PhotoService } from '../../services/photo.service';
+import { ProgressService } from '../../services/progress.service';
 
 
 
@@ -19,6 +20,7 @@ export class ViewVehicleComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private photoService: PhotoService,
+        private progressService: ProgressService,
         private vehicleService: VehicleService) {
 
         this.route.params.subscribe(p => {
@@ -59,6 +61,9 @@ export class ViewVehicleComponent implements OnInit {
 
     uploadPhoto() {
         var nativeElement: HTMLInputElement = this.fileIput.nativeElement;
+
+        this.progressService.uploadProgress
+            .subscribe(progress => console.log(progress));
 
         this.photoService.upload(this.vehicleId, nativeElement.files[0]) // we deal with single file so we select files array as one element : files[0]
             .subscribe(photo => {
