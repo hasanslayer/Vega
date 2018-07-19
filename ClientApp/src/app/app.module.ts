@@ -20,6 +20,7 @@ import { PaginationComponent } from './components/shared/pagination.component';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle';
 import { PhotoService } from './services/photo.service';
 import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
+import { AuthService } from './services/auth.service';
 
 Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').install();
 
@@ -58,7 +59,8 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
     { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
     VehicleService,
     PhotoService,
-    ProgressService
+    ProgressService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
