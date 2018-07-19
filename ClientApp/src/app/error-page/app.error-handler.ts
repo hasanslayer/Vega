@@ -10,15 +10,14 @@ export class AppErrorHandler implements ErrorHandler {
 
     handleError(error: any): void {
 
+        this.ngZone.run(() => {
+            alert("un expected error occured");
+        });
+
         if (!isDevMode())
             Raven.captureException(error.originalError || error);
         else
             throw error;
-
-        this.ngZone.run(() => {
-            console.log("ERROR : this should be notification inside ngZone");
-        });
-
 
     }
 
