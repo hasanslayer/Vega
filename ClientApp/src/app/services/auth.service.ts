@@ -16,7 +16,7 @@ export class AuthService {
         responseType: 'token id_token',
         audience: 'https://api.vega.com',
         redirectUri: 'https://localhost:5001/vehicles',
-        scope: 'openid'
+        scope: 'openid email profile'
     });
 
 
