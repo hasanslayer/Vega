@@ -14,13 +14,13 @@ export class AuthService {
         clientID: 'YFjDz4SXuTEDYQckiIZDCzX5p2780HwC',
         domain: 'vega-slayer.auth0.com',
         responseType: 'token id_token',
-        audience: 'https://vega-slayer.auth0.com/userinfo',
+        audience: 'https://api.vega.com',
         redirectUri: 'https://localhost:5001/vehicles',
         scope: 'openid'
     });
 
 
-
+    // 'https://vega-slayer.auth0.com/userinfo'
     constructor(public router: Router) { }
 
     public login(): void {
