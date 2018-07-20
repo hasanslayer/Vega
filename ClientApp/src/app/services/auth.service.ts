@@ -19,6 +19,8 @@ export class AuthService {
         scope: 'openid'
     });
 
+
+
     constructor(public router: Router) { }
 
     public login(): void {
@@ -27,13 +29,14 @@ export class AuthService {
 
     public handleAuthentication(): void {
         this.auth0.parseHash((err, authResult) => {
+            console.log("authResult", authResult) // just for checking
             if (authResult && authResult.accessToken && authResult.idToken) {
                 window.location.hash = '';
                 this.setSession(authResult);
                 this.router.navigate(['/vehicles']);
             } else if (err) {
                 this.router.navigate(['/not-found']);
-                console.log(err);
+                console.log("the error:", err);
             }
         });
     }
