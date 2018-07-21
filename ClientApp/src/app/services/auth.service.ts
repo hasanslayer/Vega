@@ -4,11 +4,13 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import * as auth0 from 'auth0-js';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 (window as any).global = window;
 
 @Injectable()
 export class AuthService {
+    roles: string[] = [];
 
     auth0 = new auth0.WebAuth({
         clientID: 'YFjDz4SXuTEDYQckiIZDCzX5p2780HwC',
@@ -27,9 +29,13 @@ export class AuthService {
         this.auth0.authorize();
     }
 
+    public isInRole(roleName) {
+        return this.roles.indexOf(roleName) > -1;
+    }
+
     public handleAuthentication(): void {
         this.auth0.parseHash((err, authResult) => {
-            console.log("authResult", authResult) // just for checking
+            // console.log("authResult", authResult) // just for checking
             if (authResult && authResult.accessToken && authResult.idToken) {
                 window.location.hash = '';
                 this.setSession(authResult);
@@ -47,6 +53,11 @@ export class AuthService {
         localStorage.setItem('access_token', authResult.accessToken);
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
+
+        var jwtHelper = new JwtHelperService();
+        var decoderToken = jwtHelper.decodeToken(authResult.accessToken);
+        this.roles = decoderToken['https://vega.com/roles'];
+        console.log(decoderToken['https://vega.com/roles']);
     }
 
     public logout(): void {
@@ -54,6 +65,7 @@ export class AuthService {
         localStorage.removeItem('access_token');
         localStorage.removeItem('id_token');
         localStorage.removeItem('expires_at');
+        this.roles = [];
         // Go back to the home route
         this.router.navigate(['/']);
     }
