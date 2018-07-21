@@ -54,6 +54,10 @@ export class AuthService {
         localStorage.setItem('id_token', authResult.idToken);
         localStorage.setItem('expires_at', expiresAt);
 
+        this.readRolesFromLocalStorage(authResult);
+    }
+
+    private readRolesFromLocalStorage(authResult) {
         var jwtHelper = new JwtHelperService();
         var decoderToken = jwtHelper.decodeToken(authResult.accessToken);
         this.roles = decoderToken['https://vega.com/roles'];
