@@ -1,3 +1,6 @@
+import { AdminAuthGuard } from './services/admin-auth-guard.service';
+import { AuthGuard } from './services/auth-guard.service';
+
 import * as Raven from 'raven-js';
 import { VehicleService } from './services/vehicle.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -51,7 +54,7 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
       { path: 'vehicles/edit/:id', component: VehicleFormComponent },
       { path: 'vehicles/:id', component: ViewVehicleComponent },
       { path: 'vehicles', component: VehicleListComponent },
-      { path: 'admin', component: AdminComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AdminAuthGuard] },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'not-found', component: NotFoundComponent }
@@ -60,10 +63,13 @@ Raven.config('https://6dcf96d4d5f6408692b1b3a723c9a918@sentry.io/1239163').insta
   providers: [
     { provide: ErrorHandler, useClass: AppErrorHandler },
     { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
+    AuthService,
+    AuthGuard,
+    AdminAuthGuard,
     VehicleService,
     PhotoService,
-    ProgressService,
-    AuthService
+    ProgressService
+
   ],
   bootstrap: [AppComponent]
 })
